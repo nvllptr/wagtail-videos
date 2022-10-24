@@ -1,21 +1,15 @@
 from django.conf import settings
-from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
-from django.views.generic.base import View
 from django.utils.functional import cached_property
-
+from django.utils.translation import gettext_lazy as _
+from django.views.generic.base import View
 from wagtail.admin.auth import PermissionPolicyChecker
 from wagtail.admin.models import popular_tags_for_model
 from wagtail.admin.views.generic.chooser import (
-    BaseChooseView,
-    ChooseResultsViewMixin,
-    ChooseViewMixin,
-    ChosenResponseMixin,
-    ChosenViewMixin,
-    CreateViewMixin,
-    CreationFormMixin,
-)
+    BaseChooseView, ChooseResultsViewMixin, ChooseViewMixin,
+    ChosenResponseMixin, ChosenViewMixin, CreateViewMixin, CreationFormMixin)
 from wagtail.admin.viewsets.chooser import ChooserViewSet
+
 from wagtailvideos import get_video_model
 from wagtailvideos.forms import get_video_form
 from wagtailvideos.permissions import permission_policy

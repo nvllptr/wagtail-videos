@@ -38,14 +38,14 @@ flake8:
 
 isort:
   stage: lint
-  image: python:3.8
+  image: python:3.10
   before_script:
     - pip install isort -e .
   script:
     - isort --recursive --diff --check-only wagtailvideos/ tests/
 
 build:
-  image: python:3.8
+  image: python:3.10
   stage: release
   before_script:
     - pip install --upgrade setuptools wheel twine

@@ -8,8 +8,7 @@ from wagtailvideos import ffmpeg
 def ffmpeg_check(app_configs, **kwargs):
     messages = []
     if (
-        not ffmpeg.installed()
-        and not getattr(settings, 'WAGTAIL_VIDEOS_DISABLE_TRANSCODE', False)
+        not ffmpeg.installed() and not getattr(settings, 'WAGTAIL_VIDEOS_DISABLE_TRANSCODE', False)
     ):
         messages.append(
             Warning(
