@@ -19,12 +19,12 @@
         {% for video in videos %}
             <li>
                 <a class="image-choice" href="{% url 'wagtailvideos:edit' video.id %}">
-                    <div class="image">
+                    <figure>
                         {% if video.thumbnail %}
                         <img src="{{ video.thumbnail.url }}" height="165" width="165" class="show-transparency" alt="{% trans 'Video thumbnail' %}"/>
                         {% endif %}
-                    </div>
-                    <h3>{{ video.title|ellipsistrim:60 }}</h3>
+                        <figcaption>{{ video.title|ellipsistrim:60 }}</figcaption>
+                    </figure>
                 </a>
             </li>
         {% endfor %}
