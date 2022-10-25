@@ -38,6 +38,7 @@ DATABASES = {
 }
 
 WAGTAIL_SITE_NAME = 'Wagtail Videos'
+WAGTAILADMIN_BASE_URL = 'http://localhost:8080'
 
 DEBUG = True
 

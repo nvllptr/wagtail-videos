@@ -12,21 +12,22 @@ stages:
 
 head:
   extends: .python_test
-  image: python:3.8
+  image: python:3.10
   before_script:
     - pip install .['testing']
 
-lts_211:
-  image: python:3.8
-  extends: .python_test
-  before_script:
-    - pip install .['testing'] wagtail~=2.11 django~=3.1
+# TODO add 4.0+ LTS once released
+# lts_211:
+#   image: python:3.8
+#   extends: .python_test
+#   before_script:
+#     - pip install .['testing'] wagtail~=2.11 django~=3.1
 
-lts_215:
-  image: python:3.10
-  extends: .python_test
-  before_script:
-    - pip install .['testing'] wagtail~=2.15 django~=4.0
+# lts_215:
+#   image: python:3.10
+#   extends: .python_test
+#   before_script:
+#     - pip install .['testing'] wagtail~=2.15 django~=4.0
 
 flake8:
   stage: lint
@@ -38,14 +39,14 @@ flake8:
 
 isort:
   stage: lint
-  image: python:3.8
+  image: python:3.10
   before_script:
     - pip install isort -e .
   script:
     - isort --recursive --diff --check-only wagtailvideos/ tests/
 
 build:
-  image: python:3.8
+  image: python:3.10
   stage: release
   before_script:
     - pip install --upgrade setuptools wheel twine

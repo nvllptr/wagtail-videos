@@ -62,7 +62,7 @@ class TestVideoAddView(TestCase, WagtailTestUtils):
 
         # as standard, only the root collection exists and so no 'Collection' option
         # is displayed on the form
-        self.assertNotContains(response, '<label for="id_collection">')
+        self.assertNotContains(response, '<label class="w-field__label" for="id_collection" id="id_collection-label">')
 
         # Ensure the form supports file uploads
         self.assertContains(response, 'enctype="multipart/form-data"')
@@ -76,7 +76,7 @@ class TestVideoAddView(TestCase, WagtailTestUtils):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'wagtailvideos/videos/add.html')
 
-        self.assertContains(response, '<label for="id_collection">')
+        self.assertContains(response, '<label class="w-field__label" for="id_collection" id="id_collection-label">')
         self.assertContains(response, collection_name)
 
     def test_add(self):
@@ -302,18 +302,18 @@ class TestVideoChooserView(TestCase, WagtailTestUtils):
         self.login()
 
     def get(self, params={}):
-        return self.client.get(reverse('wagtailvideos:chooser'), params)
+        return self.client.get(reverse('wagtailvideos_chooser:choose'), params)
 
     def test_simple(self):
         response = self.get()
         self.assertEqual(response.status_code, 200)
         response_json = json.loads(response.content.decode())
-        self.assertEqual(response_json['step'], 'chooser')
+        self.assertEqual(response_json['step'], 'choose')
 
     def test_search(self):
         response = self.get({'q': "Hello"})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context['query_string'], "Hello")
+        self.assertEqual(response.context['search_query'], "Hello")
 
     def test_pagination(self):
         pages = ['0', '1', '-1', '9999', 'Not a page']
@@ -351,13 +351,13 @@ class TestVideoChooserChosenView(TestCase, WagtailTestUtils):
         )
 
     def get(self, params={}):
-        return self.client.get(reverse('wagtailvideos:video_chosen', args=(self.video.id,)), params)
+        return self.client.get(reverse('wagtailvideos_chooser:chosen', args=(self.video.id,)), params)
 
     def test_simple(self):
         response = self.get()
         self.assertEqual(response.status_code, 200)
         response_json = json.loads(response.content.decode())
-        self.assertEqual(response_json['step'], 'video_chosen')
+        self.assertEqual(response_json['step'], 'chosen')
 
 
 class TestVideoChooserUploadView(TestCase, WagtailTestUtils):
@@ -365,17 +365,19 @@ class TestVideoChooserUploadView(TestCase, WagtailTestUtils):
         self.login()
 
     def get(self, params={}):
-        return self.client.get(reverse('wagtailvideos:chooser_upload'), params)
+        return self.client.get(reverse('wagtailvideos_chooser:create'), params)
 
     def test_simple(self):
         response = self.get()
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'wagtailvideos/chooser/chooser.html')
+        self.assertTemplateUsed(
+            response, "wagtailadmin/generic/chooser/creation_form.html"
+        )
         response_json = json.loads(response.content.decode())
-        self.assertEqual(response_json['step'], 'chooser')
+        self.assertEqual(response_json["step"], "reshow_creation_form")
 
     def test_upload(self):
-        response = self.client.post(reverse('wagtailvideos:chooser_upload'), {
+        response = self.client.post(reverse('wagtailvideos_chooser:create'), {
             'title': "Test video",
             'file': SimpleUploadedFile('small.mp4', create_test_video_file().read(), "video/mp4"),
         })
@@ -388,34 +390,16 @@ class TestVideoChooserUploadView(TestCase, WagtailTestUtils):
         self.assertEqual(videos.count(), 1)
 
     def test_upload_no_file_selected(self):
-        response = self.client.post(reverse('wagtailvideos:chooser_upload'), {
+        response = self.client.post(reverse('wagtailvideos_chooser:create'), {
             'title': "Test video",
         })
 
         # Shouldn't redirect anywhere
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'wagtailvideos/chooser/chooser.html')
+        self.assertTemplateUsed(response, 'wagtailadmin/generic/chooser/creation_form.html')
 
         # The form should have an error
-        self.assertFormError(response, 'uploadform', 'file', "This field is required.")
-
-    def test_pagination_after_upload_form_error(self):
-        for i in range(0, 20):
-            Video.objects.create(
-                title="Test video %d" % i,
-                file=create_test_video_file(),
-            )
-
-        response = self.client.post(reverse('wagtailvideos:chooser_upload'), {
-            'title': "Test video",
-        })
-
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'wagtailvideos/chooser/chooser.html')
-
-        # The re-rendered video chooser listing should be paginated
-        self.assertContains(response, "Page 1 of ")
-        self.assertEqual(12, len(response.context['videos']))
+        self.assertFormError(response, 'form', 'file', "This field is required.")
 
 
 class TestVideoChooserUploadViewWithLimitedPermissions(TestCase, WagtailTestUtils):
@@ -448,22 +432,30 @@ class TestVideoChooserUploadViewWithLimitedPermissions(TestCase, WagtailTestUtil
         self.client.login(username='moriarty', password='password')
 
     def test_get(self):
-        response = self.client.get(reverse('wagtailvideos:chooser_upload'))
+        response = self.client.get(reverse('wagtailvideos_chooser:create'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'wagtailvideos/chooser/chooser.html')
+        self.assertTemplateUsed(
+            response, "wagtailadmin/generic/chooser/creation_form.html"
+        )
 
         # user only has access to one collection, so no 'Collection' option
         # is displayed on the form
-        self.assertNotContains(response, '<label for="id_collection">')
+        self.assertNotContains(
+            response,
+            '<label class="w-field__label" for="id_collection" id="id_collection-label">',
+        )
 
     def test_get_chooser(self):
-        response = self.client.get(reverse('wagtailvideos:chooser'))
+        response = self.client.get(reverse('wagtailvideos_chooser:choose'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'wagtailvideos/chooser/chooser.html')
 
         # user only has access to one collection, so no 'Collection' option
         # is displayed on the form
-        self.assertNotContains(response, '<label for="id_collection">')
+        self.assertNotContains(
+            response,
+            '<label class="w-field__label" for="id_collection" id="id_collection-label">',
+        )
 
 
 class TestMultipleVideoUploader(TestCase, WagtailTestUtils):
