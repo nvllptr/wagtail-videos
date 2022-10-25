@@ -3,6 +3,7 @@ from django.urls import path, re_path
 from wagtailvideos.views import multiple, videos
 
 app_name = 'wagtailvideos'
+
 urlpatterns = [
     path('add/', videos.add, name='add'),
     re_path(r'^usage/(\d+)/$', videos.usage, name='video_usage'),
