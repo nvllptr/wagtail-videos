@@ -1,6 +1,18 @@
 CHANGELOG
 =========
 
+4.0.1
+-----
+
+- Fixed bad migration
+
+
+4.0.0
+-----
+
+- Upped min Wagtail version to 4.x
+- Added support for limiting video choices based on collection permission
+
 2.11.1
 ------
 

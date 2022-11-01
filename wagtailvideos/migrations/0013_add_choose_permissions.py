@@ -85,11 +85,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name="video",
-            options={
-                "permissions": [("choose_video", "Can choose video")],
-                "verbose_name": "video",
-                "verbose_name_plural": "videos",
-            },
+            options={'ordering': ['-created_at'], 'permissions': [('choose_video', 'Can choose video')]},
         ),
         migrations.RunPython(
             add_choose_permission_to_admin_groups, remove_choose_permission
