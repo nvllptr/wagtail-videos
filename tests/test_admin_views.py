@@ -221,8 +221,7 @@ class TestVideoEditView(TestCase, WagtailTestUtils):
         # Ensure the form supports file uploads
         self.assertContains(response, 'enctype="multipart/form-data"')
 
-    @override_settings(WAGTAIL_USAGE_COUNT_ENABLED=True)
-    def test_with_usage_count(self):
+    def test_usage_count(self):
         response = self.get()
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'wagtailvideos/videos/edit.html')
