@@ -15,6 +15,5 @@ INSTALLED_APPS += [
 ]
 
 WAGTAILVIDEOS_VIDEO_MODEL = 'app.CustomVideoModel'
-WAGTAIL_USAGE_COUNT_ENABLED = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
