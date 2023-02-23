@@ -17,7 +17,7 @@ setup(
     author_email="developers@neonjungle.studio",
     url="https://github.com/neon-jungle/wagtailvideos",
     install_requires=[
-        "wagtail>=4.0",
+        "wagtail>=4.2",
         "Django>=3.2",
         "django-enumchoicefield>=1.1.0",
         "bcp47==0.0.4",
