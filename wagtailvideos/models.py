@@ -22,7 +22,7 @@ from enumchoicefield import ChoiceEnum, EnumChoiceField
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from taggit.managers import TaggableManager
-from wagtail.core.models import CollectionMember, Orderable
+from wagtail.models import CollectionMember, Orderable
 from wagtail.search import index
 from wagtail.search.queryset import SearchableQuerySetMixin
 
