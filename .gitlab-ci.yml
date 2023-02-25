@@ -16,18 +16,11 @@ head:
   before_script:
     - pip install .['testing']
 
-# TODO add 4.0+ LTS once released
-# lts_211:
-#   image: python:3.8
-#   extends: .python_test
-#   before_script:
-#     - pip install .['testing'] wagtail~=2.11 django~=3.1
-
-# lts_215:
-#   image: python:3.10
-#   extends: .python_test
-#   before_script:
-#     - pip install .['testing'] wagtail~=2.15 django~=4.0
+lts_42:
+  image: python:3.10
+  extends: .python_test
+  before_script:
+    - pip install .['testing'] wagtail~=4.2 django~=4.0
 
 flake8:
   stage: lint
