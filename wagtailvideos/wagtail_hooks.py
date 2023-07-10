@@ -23,7 +23,7 @@ Video = get_video_model()
 class TracksAdmin(ModelAdmin):
     model = Video.get_track_listing_model()
     menu_icon = 'openquote'
-    menu_label = 'Text tracks'
+    menu_label = _('Text tracks')
 
     list_display = ('__str__', 'track_count')
 
