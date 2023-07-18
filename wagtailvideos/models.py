@@ -353,25 +353,27 @@ class TrackListing(AbstractTrackListing):
 class AbstractVideoTrack(Orderable):
     # TODO move to TextChoices once django < 3 is dropped
     track_kinds = [
-        ('subtitles', 'Subtitles'),
-        ('captions', 'Captions'),
-        ('descriptions', 'Descriptions'),
-        ('chapters', 'Chapters'),
-        ('metadata', 'Metadata'),
+        ('subtitles', _('Subtitles')),
+        ('captions', _('Captions')),
+        ('descriptions', _('Descriptions')),
+        ('chapters', _('Chapters')),
+        ('metadata', _('Metadata')),
     ]
 
     file = models.FileField(
-        verbose_name=_('file'),
+        verbose_name=_('File'),
         upload_to=get_upload_to
     )
-    kind = models.CharField(max_length=50, choices=track_kinds, default=track_kinds[0][0])
+    kind = models.CharField(max_length=50, choices=track_kinds, default=track_kinds[0][0], verbose_name=_('Kind'))
     label = models.CharField(
         max_length=255, blank=True,
-        help_text='A user-readable title of the text track.')
+        help_text=_('A user-readable title of the text track.'),
+        verbose_name=_('Label'))
     language = models.CharField(
         max_length=50,
         choices=[(v, k) for k, v in bcp47.languages.items()],
-        default='en', blank=True, help_text='Required if type is "Subtitle"')
+        default='en', blank=True, help_text=_('Required if type is "Subtitle"'),
+        verbose_name=_('Language'))
 
     def track_tag(self):
         attrs = {
