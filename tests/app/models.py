@@ -7,11 +7,8 @@ from wagtail.models import Page
 from wagtailvideos.blocks import VideoChooserBlock
 from wagtailvideos.edit_handlers import VideoChooserPanel
 from wagtailvideos.models import (
-    AbstractTrackListing,
-    AbstractVideo,
-    AbstractVideoTrack,
-    AbstractVideoTranscode,
-)
+    AbstractTrackListing, AbstractVideo, AbstractVideoTrack,
+    AbstractVideoTranscode)
 
 
 class CustomVideoModel(AbstractVideo):
