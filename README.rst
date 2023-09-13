@@ -13,7 +13,7 @@ Requirements
 ------------
 
 -  Wagtail >= 4.0 (for older wagtail version see the tags)
--  `ffmpeg <https://ffmpeg.org/>`__ 
+-  `ffmpeg <https://ffmpeg.org/>`__
 
 Installing
 ----------
@@ -31,7 +31,7 @@ Add `wagtailvideos` to your installed apps.
     INSTALLED_APPS = [
         'wagtailvideos',
     ]
-    
+
 Using
 -----
 
@@ -120,6 +120,16 @@ Transcode can be disabled using the ``WAGTAIL_VIDEOS_DISABLE_TRANSCODE`` setting
 
     # settings.py
     WAGTAIL_VIDEOS_DISABLE_TRANSCODE = True
+
+Modify Thumbnail extension:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The automatically generated Thumbnail extension can be modified  using the ``WAGTAIL_VIDEOS_THUMBNAIL_EXTENSION`` setting. Default value is jpg
+
+.. code:: django
+
+    # settings.py
+    WAGTAIL_VIDEOS_THUMBNAIL_EXTENSION = 'webp'
 
 Custom Video models:
 ~~~~~~~~~~~~~~~~~~~~

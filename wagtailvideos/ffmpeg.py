@@ -7,6 +7,7 @@ import subprocess
 import tempfile
 
 from django.core.files.base import ContentFile
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +47,8 @@ def get_thumbnail(file_path):
         raise RuntimeError('ffmpeg is not installed')
 
     file_name = os.path.basename(file_path)
-    thumb_name = '{}_thumb{}'.format(os.path.splitext(file_name)[0], '.jpg')
+    thumb_extension = getattr(settings, 'WAGTAIL_VIDEOS_THUMBNAIL_EXTENSION', 'jpg').lower()
+    thumb_name = '{}_thumb.{}'.format(os.path.splitext(file_name)[0], thumb_extension)
 
     try:
         output_dir = tempfile.mkdtemp()
@@ -57,9 +59,9 @@ def get_thumbnail(file_path):
                 '-v', 'quiet',
                 '-itsoffset', '-4',
                 '-i', file_path,
-                '-vcodec', 'mjpeg',
+                '-update', 'true',
                 '-vframes', '1',
-                '-an', '-f', 'rawvideo',
+                '-an',
                 '-vf', 'scale=iw:-1',  # Make thumbnail the size & aspect ratio of the input video
                 output_file,
             ], stdin=DEVNULL(), stdout=DEVNULL())
