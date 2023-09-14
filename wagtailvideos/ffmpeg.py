@@ -6,8 +6,8 @@ import shutil
 import subprocess
 import tempfile
 
-from django.core.files.base import ContentFile
 from django.conf import settings
+from django.core.files.base import ContentFile
 
 logger = logging.getLogger(__name__)
 
