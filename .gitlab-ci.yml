@@ -16,11 +16,17 @@ head:
   before_script:
     - pip install .['testing']
 
-lts_42:
+lts_41:
   image: python:3.10
   extends: .python_test
   before_script:
-    - pip install .['testing'] wagtail~=4.2 django~=4.0
+    - pip install .['testing'] wagtail~=4.1 django~=4.1
+
+lts_52:
+  image: python:3.10
+  extends: .python_test
+  before_script:
+    - pip install .['testing'] wagtail~=5.2 django~=4.2
 
 flake8:
   stage: lint
