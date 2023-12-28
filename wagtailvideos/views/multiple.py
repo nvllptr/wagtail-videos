@@ -1,22 +1,15 @@
-from distutils.version import LooseVersion
-
-import wagtail
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.template.loader import render_to_string
 from django.utils.encoding import force_str
 from django.views.decorators.http import require_POST
 from django.views.decorators.vary import vary_on_headers
+from wagtail.admin.auth import PermissionPolicyChecker
 from wagtail.search.backends import get_search_backends
 
 from wagtailvideos import get_video_model
 from wagtailvideos.forms import get_video_form
 from wagtailvideos.permissions import permission_policy
-
-if LooseVersion(wagtail.__version__) >= LooseVersion('2.7'):
-    from wagtail.admin.auth import PermissionPolicyChecker
-else:
-    from wagtail.admin.utils import PermissionPolicyChecker
 
 permission_checker = PermissionPolicyChecker(permission_policy)
 
