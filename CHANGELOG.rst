@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+5.2
+---
+
+- Upped minimum wagtail version to latest LTS (5.2)
+
+
 4.0.1
 -----
 
