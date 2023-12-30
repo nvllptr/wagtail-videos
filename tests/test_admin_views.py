@@ -149,7 +149,9 @@ class TestVideoAddView(TestCase, WagtailTestUtils):
         self.assertTemplateUsed(response, "wagtailvideos/videos/add.html")
 
         # The form should have an error
-        self.assertFormError(response, "form", "file", "This field is required.")
+        self.assertFormError(
+            response.context["form"], "file", "This field is required."
+        )
 
     @override_settings(WAGTAILVIDEOS_MAX_UPLOAD_SIZE=1)
     def test_add_too_large_file(self):
@@ -168,8 +170,7 @@ class TestVideoAddView(TestCase, WagtailTestUtils):
 
         # The form should have an error
         self.assertFormError(
-            response,
-            "form",
+            response.context["form"],
             "file",
             "This file is too big ({file_size}). Maximum filesize {max_file_size}.".format(
                 file_size=filesizeformat(video_file.size),
@@ -446,7 +447,9 @@ class TestVideoChooserUploadView(TestCase, WagtailTestUtils):
         )
 
         # The form should have an error
-        self.assertFormError(response, "form", "file", "This field is required.")
+        self.assertFormError(
+            response.context["form"], "file", "This field is required."
+        )
 
 
 class TestVideoChooserUploadViewWithLimitedPermissions(TestCase, WagtailTestUtils):
@@ -686,7 +689,9 @@ class TestMultipleVideoUploader(TestCase, WagtailTestUtils):
         self.assertTemplateUsed(response, "wagtailvideos/multiple/edit_form.html")
 
         # Check that a form error was raised
-        self.assertFormError(response, "form", "title", "This field is required.")
+        self.assertFormError(
+            response.context["form"], "title", "This field is required."
+        )
 
         # Check JSON
         response_json = json.loads(response.content.decode())
