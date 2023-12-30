@@ -6,10 +6,8 @@ import shutil
 import subprocess
 import tempfile
 import threading
-from distutils.version import LooseVersion
 
 import bcp47
-import wagtail
 from django.conf import settings
 from django.core.exceptions import SuspiciousFileOperation
 from django.core.files.base import ContentFile
@@ -22,14 +20,10 @@ from enumchoicefield import ChoiceEnum, EnumChoiceField
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from taggit.managers import TaggableManager
+from wagtail.admin.models import get_object_usage
 from wagtail.models import CollectionMember, Orderable
 from wagtail.search import index
 from wagtail.search.queryset import SearchableQuerySetMixin
-
-if LooseVersion(wagtail.__version__) >= LooseVersion('2.7'):
-    from wagtail.admin.models import get_object_usage
-else:
-    from wagtail.admin.utils import get_object_usage
 
 logger = logging.getLogger(__name__)
 

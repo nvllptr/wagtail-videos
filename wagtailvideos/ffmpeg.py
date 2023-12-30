@@ -5,16 +5,12 @@ import re
 import shutil
 import subprocess
 import tempfile
+from shutil import which
 
 from django.conf import settings
 from django.core.files.base import ContentFile
 
 logger = logging.getLogger(__name__)
-
-try:
-    from shutil import which
-except ImportError:
-    from distutils.spawn import find_executable as which
 
 
 def DEVNULL():

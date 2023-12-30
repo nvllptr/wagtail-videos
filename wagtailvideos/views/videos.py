@@ -1,6 +1,3 @@
-from distutils.version import LooseVersion
-
-import wagtail
 from django.conf import settings
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
@@ -9,7 +6,9 @@ from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from django.views.decorators.vary import vary_on_headers
 from wagtail.admin import messages
+from wagtail.admin.auth import PermissionPolicyChecker
 from wagtail.admin.forms.search import SearchForm
+from wagtail.admin.models import popular_tags_for_model
 from wagtail.contrib.modeladmin.helpers import AdminURLHelper
 from wagtail.models import Collection
 from wagtail.search.backends import get_search_backends
@@ -17,13 +16,6 @@ from wagtail.search.backends import get_search_backends
 from wagtailvideos import ffmpeg, get_video_model, is_modeladmin_installed
 from wagtailvideos.forms import VideoTranscodeAdminForm, get_video_form
 from wagtailvideos.permissions import permission_policy
-
-if LooseVersion(wagtail.__version__) >= LooseVersion('2.7'):
-    from wagtail.admin.auth import PermissionPolicyChecker
-    from wagtail.admin.models import popular_tags_for_model
-else:
-    from wagtail.admin.utils import (
-        PermissionPolicyChecker, popular_tags_for_model)
 
 permission_checker = PermissionPolicyChecker(permission_policy)
 
