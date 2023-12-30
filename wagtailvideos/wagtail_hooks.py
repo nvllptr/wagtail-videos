@@ -76,7 +76,7 @@ class VideoMenu(Menu):
     def registered_menu_items(self):
         return [
             MenuItem(_('Manage videos'), reverse('wagtailvideos:index'),
-                     name='videos', classnames='icon icon-media', order=100),
+                     name='videos', icon_name='media', order=100),
             TracksAdmin().get_menu_item(),
         ]
 
@@ -86,12 +86,12 @@ def register_images_menu_item():
     if is_modeladmin_installed():
         return SubmenuMenuItem(
             _('Videos'), VideoMenu(),
-            name='videos', classnames='icon icon-media', order=300
+            name='videos', icon_name='media', order=300
         )
     else:
         return MenuItem(
             _('Videos'), reverse('wagtailvideos:index'),
-            name='videos', classnames='icon icon-media', order=300
+            name='videos', icon_name='media', order=300
         )
 
 
@@ -135,7 +135,7 @@ def register_media_search_area():
         _("Video"),
         reverse("wagtailvideos:index"),
         name="video",
-        classnames="icon icon-media",
+        icon_name="media",
         order=400,
     )
 
