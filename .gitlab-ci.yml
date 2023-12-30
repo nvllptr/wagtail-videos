@@ -12,25 +12,20 @@ stages:
 
 head:
   extends: .python_test
-  image: python:3.10
+  image: python:3.11
   before_script:
     - pip install .['testing']
 
-lts_41:
-  image: python:3.10
-  extends: .python_test
-  before_script:
-    - pip install .['testing'] wagtail~=4.1 django~=4.1
 
 lts_52:
-  image: python:3.10
+  image: python:3.11
   extends: .python_test
   before_script:
     - pip install .['testing'] wagtail~=5.2 django~=4.2
 
 flake8:
   stage: lint
-  image: python:3.10
+  image: python:3.11
   before_script:
     - pip install flake8
   script:
@@ -38,14 +33,14 @@ flake8:
 
 isort:
   stage: lint
-  image: python:3.10
+  image: python:3.11
   before_script:
     - pip install isort -e .
   script:
     - isort --recursive --diff --check-only wagtailvideos/ tests/
 
 build:
-  image: python:3.10
+  image: python:3.11
   stage: release
   before_script:
     - pip install --upgrade setuptools wheel twine
