@@ -4,13 +4,16 @@
 {% block chooser_class %}image-chooser{% endblock %}
 
 {% block chosen_state_view %}
-    <div class="preview-image">
-        {% if video and video.thumbnail %}
-            <img src="{{ video.thumbnail.url }}" width="165" height="165" class="show-transparency" alt="{% trans 'Video thumbnail' %}"/>
-        {% else %}
-            <img width="165" height="165" class="show-transparency" alt=""/>
-        {% endif %}
-    </div>
+<div class="preview-image">
+    {% if video and video.thumbnail %}
+    <img src="{{ video.thumbnail.url }}" width="165" height="165" class="show-transparency"
+        alt="{% trans 'Video thumbnail' %}" />
+    <div class="video-title">{{video.title}}</div>
+    {% else %}
+    <img width="165" height="165" class="show-transparency" alt="" />
+    <div class="video-title"></div>
+    {% endif %}
+</div>
 {% endblock %}
 
 {% block edit_chosen_item_url %}{% if video %}{% url 'wagtailvideos:edit' video.id %}{% endif %}{% endblock %}
