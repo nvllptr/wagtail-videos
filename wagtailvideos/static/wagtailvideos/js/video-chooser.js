@@ -16,6 +16,7 @@ function createVideoChooser(id) {
                 alt: videoData.title
             });
             previewVideoTitle.text(videoData.title)
+            previewVideoTitle.css('overflow-x', 'auto')
             chooserElement.removeClass('blank');
             editLink.attr('href', videoData.edit_link);
         });
